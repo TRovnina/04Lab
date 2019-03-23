@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using Laboratory04.Tools;
 using System.Windows.Input;
 using Laboratory04.Models;
@@ -89,8 +90,14 @@ namespace Laboratory04.ViewModel
 
         private void DeleteImplementation(object obj)
         {
-           StationManager.DataStorage.DeletePerson(SelectedPerson);
-           Refresh();
+            if (SelectedPerson == null)
+            {
+                MessageBox.Show("Select someone!");
+                return;
+            }
+
+            StationManager.DataStorage.DeletePerson(SelectedPerson);
+            Refresh();
         }
 
         public ICommand EditCommand
@@ -100,6 +107,12 @@ namespace Laboratory04.ViewModel
 
         private void EditImplementation(object obj)
         {
+            if (SelectedPerson == null)
+            {
+                MessageBox.Show("Select someone!");
+                return;
+            }
+
             StationManager.CurrentPerson = SelectedPerson;
             NavigationManager.Instance.Navigate(ViewType.Create);
             Refresh();
